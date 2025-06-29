@@ -123,10 +123,11 @@ const ResumeExample: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Professional Resume Display Example
+            Job-timus Prime Demo
           </h1>
+          <p className="text-xl text-blue-600 font-semibold mb-2">Transforms Your Career</p>
           <p className="text-lg text-gray-600">
-            This demonstrates the ProfessionalResumeDisplay component with structured data
+            Professional resume display example - see how your optimized résumé will look
           </p>
         </div>
 

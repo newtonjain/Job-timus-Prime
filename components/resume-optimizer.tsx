@@ -231,9 +231,10 @@ const ResumeOptimizer: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">AI Résumé Optimizer</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Job-timus Prime</h1>
+          <p className="text-xl text-blue-600 font-semibold mb-2">Transforms Your Career</p>
           <p className="text-lg text-gray-600">
-            Transform your résumé with AI-powered optimization tailored to any job description
+            AI-powered résumé optimization tailored to any job description
           </p>
         </div>
 

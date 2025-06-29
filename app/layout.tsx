@@ -6,8 +6,8 @@ import { Toaster } from '@/components/toaster'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Resume Optimizer',
-  description: 'Optimize your résumé using AI to match job descriptions and improve your chances of landing your dream job.',
+  title: 'Job-timus Prime - Transforms Your Career',
+  description: 'Transform your résumé with AI-powered optimization. Upload your résumé, match it to job descriptions, and get professional improvements that help you land your dream job.',
 }
 
 export default function RootLayout({
