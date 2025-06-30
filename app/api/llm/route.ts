@@ -17,26 +17,53 @@ export async function POST(request: NextRequest) {
     };
 
     if (apiKey) {
-      headers['Authorization'] = `Bearer ${apiKey}`;
+      // Handle different API authentication methods
+      if (endpoint.includes('anthropic.com')) {
+        // Claude API uses x-api-key header
+        headers['x-api-key'] = apiKey;
+        headers['anthropic-version'] = '2023-06-01';
+      } else {
+        // OpenAI and most other APIs use Bearer token
+        headers['Authorization'] = `Bearer ${apiKey}`;
+      }
     }
 
     const SYSTEM_PROMPT = `You are an expert résumé coach and recruiter. Analyze the following résumé against the job description and provide detailed, actionable feedback points to improve the résumé for this specific job. Be quantitative and specific—point out missing skills, keywords, experience, or achievements. If the résumé is already strong, suggest advanced improvements. Respond ONLY in JSON format: {"feedback": ["point 1", "point 2", "point 3", ...]}`;
 
-    const payload = {
-      model: modelName,
-      messages: [
-        {
-          role: 'system',
-          content: SYSTEM_PROMPT
-        },
-        {
-          role: 'user',
-          content: `RÉSUMÉ:\n${resumeText}\n\nJOB DESCRIPTION:\n${jobDescription}\n\nProvide detailed, actionable feedback to improve this résumé for the job.`
-        }
-      ],
-      temperature: 0.1,
-      max_tokens: 4000,
-    };
+    let payload: any;
+    
+    if (endpoint.includes('anthropic.com')) {
+      // Claude API format
+      payload = {
+        model: modelName,
+        max_tokens: 4000,
+        temperature: 0.1,
+        system: SYSTEM_PROMPT,
+        messages: [
+          {
+            role: 'user',
+            content: `RÉSUMÉ:\n${resumeText}\n\nJOB DESCRIPTION:\n${jobDescription}\n\nProvide detailed, actionable feedback to improve this résumé for the job.`
+          }
+        ]
+      };
+    } else {
+      // OpenAI and other APIs format
+      payload = {
+        model: modelName,
+        messages: [
+          {
+            role: 'system',
+            content: SYSTEM_PROMPT
+          },
+          {
+            role: 'user',
+            content: `RÉSUMÉ:\n${resumeText}\n\nJOB DESCRIPTION:\n${jobDescription}\n\nProvide detailed, actionable feedback to improve this résumé for the job.`
+          }
+        ],
+        temperature: 0.1,
+        max_tokens: 4000,
+      };
+    }
 
     console.log('Making request to LLM endpoint:', endpoint);
     console.log('Request payload:', JSON.stringify(payload, null, 2));

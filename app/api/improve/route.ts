@@ -17,7 +17,15 @@ export async function POST(request: NextRequest) {
     };
 
     if (apiKey) {
-      headers['Authorization'] = `Bearer ${apiKey}`;
+      // Handle different API authentication methods
+      if (endpoint.includes('anthropic.com')) {
+        // Claude API uses x-api-key header
+        headers['x-api-key'] = apiKey;
+        headers['anthropic-version'] = '2023-06-01';
+      } else {
+        // OpenAI and most other APIs use Bearer token
+        headers['Authorization'] = `Bearer ${apiKey}`;
+      }
     }
 
     // Convert feedback to string format, handling both strings and objects
@@ -40,21 +48,40 @@ Instructions:
 
 Respond with just the improved résumé content.`;
 
-    const payload = {
-      model: modelName,
-      messages: [
-        {
-          role: 'system',
-          content: SYSTEM_PROMPT
-        },
-        {
-          role: 'user',
-          content: `ORIGINAL RÉSUMÉ:\n${resumeText}\n\nFEEDBACK POINTS TO ADDRESS:\n- ${feedbackText}\n\nPlease create an improved version of this résumé that addresses all the feedback points above.`
-        }
-      ],
-      temperature: 0.3,
-      max_tokens: 4000,
-    };
+    let payload: any;
+    
+    if (endpoint.includes('anthropic.com')) {
+      // Claude API format
+      payload = {
+        model: modelName,
+        max_tokens: 4000,
+        temperature: 0.3,
+        system: SYSTEM_PROMPT,
+        messages: [
+          {
+            role: 'user',
+            content: `ORIGINAL RÉSUMÉ:\n${resumeText}\n\nFEEDBACK POINTS TO ADDRESS:\n- ${feedbackText}\n\nPlease create an improved version of this résumé that addresses all the feedback points above.`
+          }
+        ]
+      };
+    } else {
+      // OpenAI and other APIs format
+      payload = {
+        model: modelName,
+        messages: [
+          {
+            role: 'system',
+            content: SYSTEM_PROMPT
+          },
+          {
+            role: 'user',
+            content: `ORIGINAL RÉSUMÉ:\n${resumeText}\n\nFEEDBACK POINTS TO ADDRESS:\n- ${feedbackText}\n\nPlease create an improved version of this résumé that addresses all the feedback points above.`
+          }
+        ],
+        temperature: 0.3,
+        max_tokens: 4000,
+      };
+    }
 
     const response = await fetch(endpoint, {
       method: 'POST',
