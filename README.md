@@ -112,5 +112,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 For issues, questions, or contributions, please open an issue on GitHub.
 
 ---
-
-*"Transform and roll out... your career!"* 🤖✨ 

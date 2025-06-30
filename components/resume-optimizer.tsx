@@ -532,6 +532,26 @@ const ResumeOptimizer: React.FC = () => {
           </div>
         )}
       </div>
+      
+      {/* Footer */}
+      <footer className="mt-16 py-8 border-t bg-white/50 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+            <span>Built with</span>
+            <a 
+              href="https://bolt.new" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-medium hover:from-blue-600 hover:to-purple-700 transition-colors shadow-sm"
+            >
+              ⚡ Bolt.new
+            </a>
+          </div>
+          <p className="mt-2 text-xs text-gray-500">
+            Transform your career with AI-powered resume optimization
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
