@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Mail, Phone, MapPin, Globe, Linkedin, Github, Download, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
